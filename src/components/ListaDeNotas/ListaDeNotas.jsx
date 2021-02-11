@@ -9,10 +9,25 @@ class ListaDeNotas extends Component {
  *  para o React com o parâmetro de props passados para a classe pai
  */
 
+ constructor(){
+    super();
+    this.state = {notas:[]}
+    this._novasNotas = this._novasNotas.bind(this);
+  }
+  componentDidMount(){
+    this.props.notas.inscrever(this._novasNotas);
+  }
+  componentWillUnmount(){
+    this.props.notas.desinscrever(this._novasNotas);
+  }
+  _novasNotas(notas){
+    this.setState({...this.state,notas})
+  }
+
   render() {
     return (
       <ul className="lista-notas">
-        {this.props.notas.map((nota, indice) => {
+        {this.state.notas.map((nota, indice) => {
           return (
             <li className="lista-notas_item" key={indice}>
               <CardNota
